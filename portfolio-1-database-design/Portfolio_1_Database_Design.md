@@ -888,26 +888,6 @@ The resulting relational model provides a suitable foundation for the subsequent
 
 ---
 
-## Portfolio 1 Submission Checklist
-
-Before submitting Portfolio 1, verify that the following are available:
-
-* [ ] Database `sarms_db` implemented
-* [ ] 12 tables created
-* [ ] Primary keys implemented
-* [ ] Foreign keys implemented
-* [ ] Unique constraints implemented
-* [ ] Check/domain constraints implemented
-* [ ] ER diagram generated from phpMyAdmin
-* [ ] ER diagram screenshot captured
-* [ ] Relational schema documented
-* [ ] Normalization to 3NF explained
-* [ ] Design rationale documented
-* [ ] Evidence screenshots inserted
-* [ ] `Portfolio_1_Database_Design.md` completed
-* [ ] `Portfolio_1_Database_Design.pdf` generated
-* [ ] Portfolio 1 committed to GitHub
-
 ---
 
 ## Author
