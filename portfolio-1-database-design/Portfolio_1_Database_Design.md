@@ -2,12 +2,11 @@
 
 ## Portfolio 1: Database Design and Modelling
 
-### Case Study: Federal Polytechnic Ekowe Student Academic Management and Result Processing System (FPE-SAMRPS)
+### Case Study: Student Academic Management and Result Processing System (SAMRPS)
 
 **Database Name:** `sarms_db`
 **Database Management System:** MySQL/MariaDB
 **Development Environment:** WAMP / phpMyAdmin
-**Institution:** Federal Polytechnic Ekowe
 **Portfolio Activity:** 1 — Database Design and Modelling
 **Assessment Weight:** 7 Marks
 
@@ -15,7 +14,7 @@
 
 ## 1. Introduction
 
-The Federal Polytechnic Ekowe Student Academic Management and Result Processing System (FPE-SAMRPS) is a relational database designed to support the management of student academic information within Federal Polytechnic Ekowe.
+The Student Academic Management and Result Processing System (SAMRPS) is a relational database designed to support the management of student academic information within an academic institution.
 
 The system provides a structured database environment for managing students, programmes, departments, lecturers, courses, academic sessions, semesters, course offerings, course registrations, examination results, system users, and audit records.
 
@@ -113,15 +112,9 @@ Similarly, the relationship between academic sessions and courses is managed thr
 
 # 6. Entity-Relationship Diagram
 
-The database relationship diagram was generated from the implemented `sarms_db` database using phpMyAdmin Designer.
+The database relationship diagram was generated from the implemented `sarms_db` database using phpMyAdmin Designer and Figma.
 
-**Figure 1: Entity-Relationship Diagram of the FPE Student Academic Management and Result Processing System**
 
-> Insert the phpMyAdmin ER diagram screenshot here.
-
-The diagram provides visual evidence of the tables and their foreign-key relationships within the implemented database.
-
----
 
 # 7. Relational Schema
 
@@ -883,7 +876,7 @@ The screenshots should be captured directly from the implemented `sarms_db` data
 
 # 15. Conclusion
 
-The FPE-SAMRPS database provides a structured relational solution for managing student academic information at Federal Polytechnic Ekowe.
+The sarms_db provides a structured relational solution for managing student academic information at an institution.
 
 The database contains twelve related entities covering departments, programmes, students, lecturers, courses, academic sessions, semesters, course offerings, registrations, results, users and audit logs.
 
@@ -923,6 +916,6 @@ Before submitting Portfolio 1, verify that the following are available:
 
 **Course:** MIT 8103 — Advanced Database Systems
 
-**Case Study:** Federal Polytechnic Ekowe Student Academic Management and Result Processing System (FPE-SAMRPS)
+**Case Study:** Student Academic Management and Result Processing System (SAMRPS)
 
 **Database:** `sarms_db`
