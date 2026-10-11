@@ -10,8 +10,6 @@
 |---|---|
 | [`case-study-description.md`](case-study-description.md) | Organisation, users, data, operations, assumptions |
 | `ER_Diagram.png` | ER diagram image (all 13 tables, keys, data types, crow's-foot relationships) |
-| `ER_Diagram.dot`, `make_er_diagram.py` | Source that regenerates the PNG (`python make_er_diagram.py`, needs Graphviz) |
-| [`er-diagram.md`](er-diagram.md) | Corrected ER diagram (Mermaid), relationship table, change log |
 | [`relational-schema.md`](relational-schema.md) | Relations, keys, foreign key map, ER-to-relational mapping |
 | [`keys-and-constraints.md`](keys-and-constraints.md) | PK / UNIQUE / FK / CHECK / ENUM / generated columns, deferred rules |
 | [`normalisation.md`](normalisation.md) | UNF -> 1NF -> 2NF -> 3NF -> BCNF walkthrough and design decisions |
