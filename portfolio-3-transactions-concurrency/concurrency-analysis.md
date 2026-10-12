@@ -24,3 +24,8 @@ Without proper transaction isolation, concurrent database access can introduce a
 ## 3. Concurrency Control Mechanism (`SELECT ... FOR UPDATE`)
 During high-stakes operations like grade entries or slot reservations, race conditions can occur if two administrative users modify the same record simultaneously. 
 * **Implementation:** We utilize pessimistic locking via `SELECT ... FOR UPDATE`. This locks the specific record rows until the active transaction completes (`COMMIT` or `ROLLBACK`), blocking other transactions from altering or overwriting the data until safety is guaranteed.
+
+* ### Scenario B: Integrity Enforcement and Rollback Evidence
+When an attempted concurrent or duplicate course registration occurs, the unique constraint `uc_student_course_session` rejects the insertion:
+* **Error Triggered:** `#1062 - Duplicate entry '1-3-First Semester-2026/2027' for key 'uc_student_course_session'`
+* **Transaction Action:** Upon catching the exception, the explicit `ROLLBACK` command is triggered, safely reverting state and ensuring database consistency.
