@@ -25,6 +25,7 @@ Design scalable distributed database architectures
 Apply replication, sharding, and consensus mechanisms
 Develop disaster recovery and business continuity strategies
 Evaluate trade-offs between consistency, availability, and partition tolerance
+
 🛠 Technologies Used
 Relational Database Technologies
 MySQL 8.0
@@ -49,6 +50,7 @@ Development & Version Control
 Git
 GitHub
 Markdown Documentation
+
 📂 Repository Structure
 advanced-database-portfolio/
 │
@@ -161,6 +163,7 @@ Deliverables
 Distributed Architecture Design
 Cloud Deployment Strategies
 Recovery and Backup Procedures
+
 🏗 System Architecture
 
 The Academic Portal architecture consists of four primary layers:
@@ -212,7 +215,7 @@ Installation
 
 Clone the repository:
 
-git clone https://github.com/your-username/advanced-database-portfolio.git
+git clone https://github.com/denireal/advanced-database-portfolio.git
 
 
 Navigate to the project folder:
@@ -274,8 +277,7 @@ This repository was developed as part of the MIT 8103 Advanced Database Systems 
 
 📧 Contact
 
-Maintainer: Southern Technical University Academic Systems Team
- Email: your.email@example.com
+Email: d.wari4944@miva.edu.ng
 
 Project Repository:
  Advanced Database Systems Portfolio
