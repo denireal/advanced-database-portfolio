@@ -52,3 +52,59 @@ To solve this, Portfolio 4 introduces a **document-oriented NoSQL model (MongoDB
     "$date": "2026-10-13T00:00:00Z"
   }
 }
+
+---
+
+### Component 2: Multi-Model Examples (`advanced-data-models.json`)
+Save this file in your `portfolio-4-nosql/` folder, showcasing how different NoSQL paradigms map to various subsystems of the university portal:
+
+```json
+{
+  "document_model": {
+    "paradigm": "Document Store (MongoDB)",
+    "portal_use_case": "Storing complete student academic transcripts and semester performance logs in a hierarchical JSON layout.",
+    "sample_data": {
+      "collection": "student_transcripts",
+      "document_key": "STU/2024/001",
+      "structure": "Nested objects for personal info and arrays for multi-semester course records."
+    }
+  },
+  "key_value_model": {
+    "paradigm": "Key-Value Store (Redis)",
+    "portal_use_case": "Managing high-speed student session tokens, user authentication state, and caching real-time exam timetables.",
+    "sample_data": {
+      "key": "session:token:a8f9c21e",
+      "value": {
+        "student_id": 1,
+        "matric_no": "STU/2024/001",
+        "role": "Student",
+        "expires_in": 3600
+      }
+    }
+  },
+  "column_family_model": {
+    "paradigm": "Wide-Column Store (Apache Cassandra / HBase)",
+    "portal_use_case": "Logging high-velocity portal audit trails, security access logs, and student exam clickstream data.",
+    "sample_data": {
+      "row_key": "STU/2024/001#2026-10-13",
+      "columns": {
+        "action": "PORTAL_LOGIN",
+        "ip_address": "192.168.1.50",
+        "status": "SUCCESS"
+      }
+    }
+  },
+  "graph_model": {
+    "paradigm": "Graph Database (Neo4j)",
+    "portal_use_case": "Mapping complex curriculum prerequisites, course dependency trees, and departmental faculty hierarchies.",
+    "sample_data": {
+      "nodes": [
+        { "id": "CSC501", "label": "Course", "title": "Advanced Database Systems" },
+        { "id": "CSC301", "label": "Course", "title": "Database Management I" }
+      ],
+      "relationships": [
+        { "from": "CSC501", "to": "CSC301", "type": "REQUIRES_PREREQUISITE" }
+      ]
+    }
+  }
+}
