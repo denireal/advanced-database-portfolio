@@ -1,18 +1,54 @@
-# NoSQL Document-Oriented Model Rationale
+# NoSQL Document Model Design: Southern Technical University Academic Portal
 
-## 1. Overview of the NoSQL Model
-In relational databases (Portfolio 1), generating a complete student academic transcript requires executing multi-table `INNER JOIN` queries across `Student`, `Department`, `Enrollment`, and `Course` tables. 
+## 1. Case Study Context & Objective
+In Portfolio 1, we implemented a normalized relational database (3NF) for Southern Technical University, handling core entities like `Student`, `Department`, `Course`, and `Enrollment`. However, high-velocity operations such as **real-time student portal dashboard loading**, **historical transcript rendering**, and **notification audit logging** introduce performance bottlenecks when relying solely on multi-table `JOIN` operations.
 
-By contrast, the document-oriented model (`student-transcript.json`) embeds all semester logs, course scores, and departmental metadata directly inside a single cohesive JSON document per student.
+To solve this, Portfolio 4 introduces a **document-oriented NoSQL model (MongoDB)**. Instead of fragmenting a student's records across four separate relational tables, a student's complete demographic data, departmental info, and multi-semester academic logs are denormalized into a single, cohesive document.
 
-## 2. Advantages of the Document Model for Academic Portals
-* **High Read Performance for Transcripts:** Fetching an entire student transcript requires a single indexed lookup on `matric_no`, eliminating costly multi-table join operations.
-* **Schema Flexibility:** Academic structures change over time (e.g., adding elective types, project scores, or internship logs). Document models accommodate varying fields across students without requiring expensive relational schema migrations (`ALTER TABLE`).
-* **Natural Data Alignment:** Hierarchical data structures (such as a student having multiple sessions, and each session having multiple courses) map directly to nested JSON arrays and objects.
-
-## 3. Comparison: Relational vs. NoSQL in University Systems
-| Feature | Relational (MySQL / 3NF) | NoSQL (MongoDB / Document) |
-| :--- | :--- | :--- |
-| **Data Integrity** | Strict ACID enforcement via foreign keys and constraints | Eventual consistency; relational validation handled at application level |
-| **Complex Queries** | Excellent for aggregations, cross-table reporting, and joins | Excellent for rapid single-object retrieval and hierarchical reads |
-| **Scalability** | Scale-up (vertical scaling) primary approach | Scale-out (horizontal sharding) native architecture |
+## 2. Document Schema Structure (`student-transcript.json`)
+```json
+{
+  "_id": {
+    "$oid": "650c1f2e1a2b3c4d5e6f7a8b"
+  },
+  "matric_no": "STU/2024/001",
+  "personal_info": {
+    "first_name": "Denyefa",
+    "last_name": "Wari",
+    "email": "denyefa.wari@southerntech.edu",
+    "admission_year": 2024
+  },
+  "department": {
+    "dept_code": "CSC",
+    "dept_name": "Computer Science",
+    "faculty": "Engineering and Technology"
+  },
+  "academic_records": [
+    {
+      "academic_session": "2026/2027",
+      "semester": "First Semester",
+      "courses_enrolled": [
+        {
+          "course_code": "CSC501",
+          "course_title": "Advanced Database Systems",
+          "credits": 3,
+          "score": 88.5,
+          "grade": "A"
+        },
+        {
+          "course_code": "CSC503",
+          "course_title": "Graph Machine Learning",
+          "credits": 3,
+          "score": 92.0,
+          "grade": "A"
+        }
+      ],
+      "semester_gpa": 5.00
+    }
+  ],
+  "cumulative_cgpa": 5.00,
+  "status": "Active",
+  "last_updated": {
+    "$date": "2026-10-13T00:00:00Z"
+  }
+}
