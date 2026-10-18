@@ -1,44 +1,53 @@
-USE southern_tech_university_db;
+-- =====================================================================
+-- MIT 8103 Advanced Database Systems - Portfolio 1
+-- Luma Polytechnic - seed data 
+-- =====================================================================
 
--- 1. Insert Departments
-INSERT INTO Department (dept_name, head_of_dept) VALUES
-('Computer Science', 'Dr. Evelyn Vance'),
-('Electrical Engineering', 'Prof. Marcus Brody'),
-('Information Technology', 'Dr. Sarah Lin');
+USE luma_db;
 
--- 2. Insert Admin Users (Including self-referencing creator ID and departmental restrictions)
--- Note: SuperAdmin is created first with NULL created_by, then subsequent admins reference admin_id 1.
-INSERT INTO AdminUser (username, password_hash, first_name, last_name, email, role, dept_id, is_2fa_enabled, totp_secret, status, created_by) VALUES
-('super_admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'System', 'Administrator', 'admin@southerntech.edu', 'SuperAdmin', NULL, TRUE, 'JBSWY3DPEHPK3PXP', 'Active', NULL),
-('registrar_jane', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Jane', 'Adamu', 'registrar@southerntech.edu', 'Registrar', NULL, TRUE, 'GEZDGNBVGY3TQOJQ', 'Active', 1),
-('cs_dean', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Evelyn', 'Vance', 'e.vance@southerntech.edu', 'Dean', 1, FALSE, NULL, 'Active', 1);
+-- ---------------------------------------------------------------------
+-- Sample data 
+-- ---------------------------------------------------------------------
+INSERT INTO grade_scale (grade_letter,min_score,max_score,grade_point) VALUES
+ ('A',75,100,4.00),('AB',70,74,3.50),('B',65,69,3.25),('BC',60,64,3.00),
+ ('C',55,59,2.75),('CD',50,54,2.50),('D',45,49,2.25),('E',40,44,2.00),
+ ('F',0,39,0.00);
 
--- 3. Insert Lecturers
-INSERT INTO Lecturer (first_name, last_name, email, dept_id) VALUES
-('Alan', 'Turing', 'a.turing@southerntech.edu', 1),
-('Grace', 'Hopper', 'g.hopper@southerntech.edu', 1),
-('Nikola', 'Tesla', 'n.tesla@southerntech.edu', 2),
-('Ada', 'Lovelace', 'a.lovelace@southerntech.edu', 3);
+INSERT INTO departments (code,name) VALUES
+ ('CSC','Computer Science'),('EEE','Electrical/Electronic Engineering');
 
--- 4. Insert Students
-INSERT INTO Student (matric_no, first_name, last_name, email, dept_id, admission_year) VALUES
-('STU/2024/001', 'Denyefa', 'Wari', 'd.wari@student.southerntech.edu', 1, 2024),
-('STU/2024/002', 'Chinedu', 'Okafor', 'c.okafor@student.southerntech.edu', 1, 2024),
-('STU/2024/003', 'Amina', 'Bello', 'a.bello@student.southerntech.edu', 2, 2024),
-('STU/2024/004', 'Oluwaseun', 'Adeyemi', 'o.adeyemi@student.southerntech.edu', 3, 2024);
+INSERT INTO programmes (department_id,name,award,duration_years) VALUES
+ (1,'Computer Science','ND',2),
+ (1,'Computer Science','HND',2),
+ (2,'Electrical/Electronic Engineering','ND',2);
 
--- 5. Insert Courses
-INSERT INTO Course (course_code, course_title, credits, dept_id) VALUES
-('CSC8103', 'Advanced Database Systems', 3, 1),
-('CSC8201', 'Machine Learning and AI', 4, 1),
-('ENG8102', 'Advanced Circuit Analysis', 3, 2),
-('IT8101', 'Cloud Computing Architectures', 3, 3);
+INSERT INTO lecturers (staff_no,full_name,email,department_id,academic_rank) VALUES
+ ('LP/ST/001','Dr. Ngozi Eze','n.eze@lumapoly.example',1,'SENIOR_LECTURER'),
+ ('LP/ST/002','Mr. Ibrahim Musa','i.musa@lumapoly.example',1,'LECTURER_I');
 
--- 6. Insert Enrollments
-INSERT INTO Enrollment (student_id, course_id, semester, academic_session, score, grade) VALUES
-(1, 1, 'First Semester', '2026/2027', 88.50, 'A'),
-(1, 2, 'First Semester', '2026/2027', 76.00, 'B'),
-(2, 1, 'First Semester', '2026/2027', 65.25, 'C'),
-(2, 4, 'First Semester', '2026/2027', 82.00, 'A'),
-(3, 3, 'First Semester', '2026/2027', 91.00, 'A'),
-(4, 4, 'First Semester', '2026/2027', 74.50, 'B');
+INSERT INTO students (matric_no,full_name,email,phone,date_of_birth,gender,programme_id,entry_year) VALUES
+ ('LP/26/CSC/0001','Ada Okafor','ada@student.lumapoly.example','08030000001','2006-03-14','F',1,2026),
+ ('LP/26/CSC/0002','Tunde Bello','tunde@student.lumapoly.example','08030000002','2005-11-02','M',1,2026),
+ ('LP/26/CSC/0003','Efe Oghene','efe@student.lumapoly.example','08030000003','2006-07-21','F',1,2026);
+
+INSERT INTO courses (department_id,course_code,title,credit_units,course_level) VALUES
+ (1,'COM111','Introduction to Computing',3,'ND1'),
+ (1,'COM112','Programming Fundamentals',4,'ND1'),
+ (1,'COM121','Database Design Basics',3,'ND1');
+
+INSERT INTO academic_terms (session_label,semester,start_date,end_date,is_current) VALUES
+ ('2026/2027','FIRST','2026-10-05','2027-02-12',TRUE);
+
+INSERT INTO course_offerings (course_id,term_id,lecturer_id,capacity) VALUES
+ (1,1,1,150),(2,1,2,120),(3,1,1,100);
+
+INSERT INTO registrations (student_id,offering_id) VALUES
+ (1,1),(1,2),(1,3),(2,1),(2,2),(3,1);
+
+INSERT INTO grades (registration_id,ca_score,exam_score,entered_by) VALUES
+ (1,27,58,1),(2,22,48,2),(3,25,41,1),(4,18,35,1),(5,15,30,2),(6,28,66,1);
+
+-- Quick verification
+SELECT * FROM v_transcript ORDER BY matric_no, course_code;
+SELECT * FROM v_semester_gpa;
+SELECT * FROM v_cgpa;
