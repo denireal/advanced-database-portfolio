@@ -7,7 +7,7 @@
 
 ## 1. Selected Organisation
 
-**Organisation / scenario:** Luma Polytechnic, a simulated Nigerian polytechnic that offers National Diploma (ND) and Higher National Diploma (HND) programmes. The organisation is fictional, and all names and data in this portfolio are made up for the exercise.
+**Organisation / scenario:** Luma Polytechnic, a simulated Nigerian polytechnic that offers National Diploma (ND) and Higher National Diploma (HND) programmes. The polytechnic is fictional, and all names and data in this portfolio are made up purely for the continuous assignment.
 
 **Nature of the business / system:** A student records and results database. It supports course registration, continuous assessment (CA) and examination scoring, GPA/CGPA computation, and transcript generation.
 
