@@ -21,3 +21,13 @@
 
 **After Index:** `CREATE INDEX idx_year_status ON students(entry_year, status);` followed by `EXPLAIN`.
 - **Result:** `type: ref` (Index Lookup). The `rows` examined drops from ~5,000 to only the matching records (e.g., ~1,600). The `Extra` column shows `Using index condition`, proving Index Condition Pushdown (ICP) is active.
+
+## Query 4: Index Optimization and Optimizer Behavior
+**Baseline Command:** `EXPLAIN SELECT ... FROM students WHERE entry_year = 2026 AND status = 'ACTIVE';`
+- **Result:** `type: ALL` (Full Table Scan). The `key` is `NULL`. 
+- **Why?** The Cost-Based Optimizer (CBO) determined that because the condition matches almost all 5,139 rows in the table, a Full Table Scan is more efficient than performing thousands of random I/O lookups via the secondary index.
+
+**Optimization Command:** 
+```sql
+CREATE INDEX idx_year_status ON students(entry_year, status);
+EXPLAIN SELECT ... FROM students FORCE INDEX (idx_year_status) WHERE entry_year = 2026 AND status = 'ACTIVE';
