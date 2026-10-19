@@ -1,53 +1,57 @@
--- -------------------------------------------------------------
--- PORTFOLIO 3: ACID Transactions and Concurrency Control
--- Database: southern_tech_university_db
--- -------------------------------------------------------------
+-- =====================================================================
+-- MIT 8103 - Portfolio 3: Transactions and Concurrency
+-- =====================================================================
+USE luma_db;
 
-USE southern_tech_university_db;
+-- =====================================================================
+-- SCENARIO 1: Explicit Transactions (COMMIT and ROLLBACK)
+-- Context: A lecturer enters a grade, realizes it's wrong, and rolls back.
+-- =====================================================================
 
--- Set Transaction Isolation Level for Concurrency Control
-SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
-
--- =============================================================
--- SCENARIO A: Successful Transaction with COMMIT (Course Registration)
--- Ensures atomicity: registering a student and locking rows to 
--- prevent race conditions during high-concurrency portal access.
--- =============================================================
-
+-- 1. Start the transaction
 START TRANSACTION;
 
--- Step 1: Check if the student exists and lock the row
-SELECT student_id, matric_no 
-FROM Student 
-WHERE student_id = 1 
-FOR UPDATE;
+-- 2. Insert a dummy grade for registration_id 1 (Ada Okafor, COM111)
+-- Note: Registration 1 already has a grade, so we use a dummy ID for demonstration, 
+-- or we can update an existing one. Let's update an existing score temporarily.
+UPDATE grades SET ca_score = 20, exam_score = 40 WHERE registration_id = 1;
 
--- Step 2: Check course availability and lock course row
-SELECT course_id, course_code, credits 
-FROM Course 
-WHERE course_id = 2 
-FOR UPDATE;
+-- 3. Check the change (within the same session, you can see it)
+SELECT registration_id, ca_score, exam_score, total_score FROM grades WHERE registration_id = 1;
 
--- Step 3: Insert course enrollment record
-INSERT INTO Enrollment (student_id, course_id, semester, academic_session, score, grade)
-VALUES (1, 2, 'First Semester', '2026/2027', NULL, NULL);
-
--- Step 4: Commit transaction if all operations succeed
-COMMIT;
-
-
--- =============================================================
--- SCENARIO B: Failed Transaction with ROLLBACK (Integrity Violation)
--- Simulates a unique constraint violation (duplicate registration) 
--- resulting in error handling and explicit rollback.
--- =============================================================
-
-START TRANSACTION;
-
--- Attempting to register the same student for the same course in the same session.
--- This triggers a duplicate entry error on the unique constraint (uc_student_course_session).
-INSERT INTO Enrollment (student_id, course_id, semester, academic_session, score, grade)
-VALUES (1, 2, 'First Semester', '2026/2027', NULL, NULL);
-
--- If an error occurs or business logic fails, rollback changes to maintain consistency
+-- 4. The lecturer realizes the mistake. ROLLBACK the changes.
 ROLLBACK;
+
+-- 5. Verify the data is restored to its original state.
+SELECT registration_id, ca_score, exam_score, total_score FROM grades WHERE registration_id = 1;
+
+
+-- =====================================================================
+-- SCENARIO 2: Concurrency Control (Preventing the "Last Seat" Race Condition)
+-- Context: Two students try to register for the last seat in a course simultaneously.
+-- We use Pessimistic Locking (SELECT ... FOR UPDATE) to prevent overbooking.
+-- =====================================================================
+
+-- Setup: Temporarily set the capacity of Offering 1 to 1 to simulate the last seat.
+UPDATE course_offerings SET capacity = 1 WHERE offering_id = 1;
+
+-- (See Git Bash instructions below to run this across TWO sessions)
+
+
+-- =====================================================================
+-- SCENARIO 3: Isolation Levels (Demonstrating a Dirty Read)
+-- Context: Reading uncommitted data from another transaction.
+-- =====================================================================
+
+-- Session A: Starts a transaction and updates a student's status, but DOES NOT commit.
+START TRANSACTION;
+UPDATE students SET status = 'DEFERRED' WHERE student_id = 2;
+
+-- Session B: Changes isolation level to READ UNCOMMITTED and reads the data.
+SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+SELECT student_id, full_name, status FROM students WHERE student_id = 2; 
+-- Result: Shows 'DEFERRED' even though Session A hasn't committed yet! (Dirty Read)
+
+-- Cleanup: Rollback Session A and reset isolation level.
+-- ROLLBACK; (Run in Session A)
+-- SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ; (Run in Session B)
