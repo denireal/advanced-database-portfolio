@@ -41,3 +41,12 @@ advanced-database-portfolio/
 ├── portfolio-5-distributed-cloud/         # (In Progress)
 │
 └── README.md
+
+## 3. Setup and Installation Instructions
+The **MySQL 8.0.16** was used and **Git Bash** configured on my system.
+
+### Step 1: Clone the Repository
+Open **Git Bash** and run the following commands to get the code:
+```bash
+git clone https://github.com/denireal/advanced-database-portfolio.git
+cd advanced-database-portfolio
