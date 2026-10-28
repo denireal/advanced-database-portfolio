@@ -27,7 +27,11 @@ This test demonstrated that the update was committed and persisted in the databa
 
 ## 3. Atomic Transaction
 
-Test C was designed to transfer 100.00 from account 1 to account 2 within one transaction. Both updates should be committed together, demonstrating atomicity: the transfer should not be left half-completed if the transaction is rolled back before commit.
+Test C transferred 100.00 from account 1 (Student Services Fund) to account 2 (Library Resources Fund) using a transaction. The initial balances were 1,000.00 and 500.00, respectively. After the transfer, account 1 had a balance of 900.00 and account 2 had a balance of 600.00, leaving the combined balance unchanged at 1,500.00.
+
+The final `SELECT` query returned these expected balances before and after `COMMIT`, and the `COMMIT` command completed successfully. This demonstrates the intended transfer outcome and confirms that the final balances were retained after the commit. However, the captured output did not include the complete transaction sequence, so the evidence should also show the successful `START TRANSACTION` and both `UPDATE` statements to establish that the two changes occurred within the same transaction.
+
+The test illustrates the principle of atomicity: both account updates should be committed together, rather than leaving the transfer partially completed. A rollback of the entire transfer was not separately tested; therefore, the rollback behaviour of this specific two-account operation remains unverified.
 
 
 ## 4. Isolation Test
