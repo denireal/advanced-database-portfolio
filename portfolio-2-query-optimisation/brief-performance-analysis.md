@@ -1,13 +1,44 @@
 # Brief Performance Analysis
 
-## 1. InnoDB Clustered Indexes
-The database uses InnoDB, which stores table data physically sorted by the Primary Key (Clustered Index). When Query 1 joins tables using Primary Keys (like `registration_id`), MySQL performs direct pointer lookups. This eliminates secondary row-ID lookups, making Primary Key joins exceptionally fast.
+**Course:** MIT 8103 Advanced Database Systems  
+**Case study:** Luma Polytechnic  
+**Database:** `luma_db`  
+**DBMS:** MySQL 8.0.16 using phpMyAdmin
 
-## 2. Composite Indexes and Left-Most Prefix
-In Portfolio 1, we added `idx_reg_offering_status (offering_id, status)`. This perfectly optimizes Query 2 because the query filters by both columns. However, due to the "Left-Most Prefix Rule", this index would not help a query that *only* filters by `status = 'REGISTERED'`, as the B-Tree is sorted by `offering_id` first.
+## Objective
 
-## 3. View Materialization Bottlenecks
-Query 3 reveals a performance bottleneck. Because the `v_semester_gpa` view contains aggregation (`GROUP BY`), MySQL is forced to use the `TEMPTABLE` algorithm. It writes the aggregated results to a temporary table before filtering. For a production system with 50,000 students, this would cause high CPU and I/O latency. The DBA solution is to replace the view with a physical summary table updated by triggers or scheduled events.
+This analysis compares selected query executions and interprets their MySQL execution plans. Because the database contains only a small sample dataset, measured execution times are treated as observations from this run, not as proof of a general performance improvement.
 
-## 4. Cost-Based Optimizer (CBO)
-MySQL's CBO uses table statistics (updated via `ANALYZE TABLE`) to estimate the cost of different execution paths. In Query 4, before the index was added, the CBO calculated that a Full Table Scan was the only option. Once the index was added, the CBO recalculated the cost and chose the Index Lookup because reading a few hundred index nodes is cheaper than reading 5,000 full data rows.
+## Observed results
+
+| Test | Rows returned | phpMyAdmin time | Main observation |
+|---|---:|---:|---|
+| Baseline five-table join | 7 | 0.0010 seconds | The plan included a full scan of `students` and a temporary-table/filesort note. |
+| Filtered join for `LP/2025/001` | 3 | 0.0009 seconds | MySQL used the unique index `uq_students_matric`. |
+| Filtered grades report for `LP/2025/001` | 2 | Not recorded here | The plan used the matriculation-number index and indexed joins for registrations, offerings, and grades. |
+| Grade range query (`total_score >= 80`) | 2 | 0.0007 seconds | MySQL used `idx_grades_total_score` with range access. |
+
+## Interpretation
+
+The filtered join was 0.0001 seconds faster in this run than the baseline join. This difference is too small to support a strong performance claim, particularly because the baseline and filtered queries return different numbers of rows. The execution plan is more useful evidence that the selective student query used the unique index on `matric_number`.
+
+For the grade range query, `EXPLAIN` reported `type=range`, selected `idx_grades_total_score`, and estimated two rows. The query returned two records in descending score order: 87.00 and 83.00, both with letter grade A. The reported 0.0007-second execution time is specific to this small test.
+
+## Dataset limitation
+
+The five tables used in the analysis contained 26 rows in total:
+
+| Table | Rows |
+|---|---:|
+| `students` | 4 |
+| `registrations` | 7 |
+| `course_offerings` | 5 |
+| `courses` | 4 |
+| `grades` | 6 |
+| **Total** | **26** |
+
+MySQL may choose a full table scan when the table is very small and scanning it is estimated to be cheaper than using an index. Therefore, these results demonstrate observed index selection and optimizer behaviour, but they do not quantify the performance benefit expected for a larger database.
+
+## Conclusion
+
+The tests confirmed use of `uq_students_matric` for filtering a student by matriculation number and `idx_grades_total_score` for range filtering on grade totals. The recorded execution times are very small and should not be presented as evidence of a significant or scalable speedup. A larger dataset and repeated controlled measurements would be needed for a stronger performance comparison.
