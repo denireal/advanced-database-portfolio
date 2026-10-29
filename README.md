@@ -243,11 +243,11 @@ Only evidence actually captured and included in the repository should be treated
 
 ## 11. Technical Reflection
 
-This project strengthened my understanding of advanced database concepts by applying them to a simulated student records system. My existing knowledge of relational databases helped me work with schema design, SQL queries, keys, constraints, and transactions.
+This project solidified my knowledge of advanced database concepts by implementing them within the context of a mock student records system. Since I already knew how to use relational databases, I was able to understand the components regarding schema design, SQL queries, keys, constraints, and transactions. But I was also able to gain knowledge of NoSQL, learning MongoDB's document model, embedded documents, aggregate pipeline, and indexing techniques.
 
-The NoSQL component provided an opportunity to learn MongoDB's document model, embedded records, aggregation pipeline, and indexing approach. The cloud database exercise also helped me understand how to inspect connectivity and replica-set information in a hosted database environment.
+And having gone through the cloud database tutorial, I now understand how to check connection status and view replica set status for a cloud-hosted database. But most importantly, this project reinforced the importance of testing theories practically rather than simply accepting them at face value.
 
-A key lesson was the importance of verifying database behaviour through practical tests rather than relying only on theoretical explanations. The project also highlighted the need to distinguish successful functional tests from claims about performance, concurrency, or availability that require more extensive evidence.
+And that the difference between a passed functional test versus a claim of high performance, high concurrency, or high availability, which requires more extensive proof.
 
 ---
 
