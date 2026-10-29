@@ -1,0 +1,73 @@
+[
+  {
+    "student_id": 1,
+    "matric_number": "LP/2025/001",
+    "first_name": "Ada",
+    "last_name": "Okafor",
+    "programme": "Computer Science",
+    "registrations": [
+      {
+        "course_code": "CST301",
+        "course_title": "Advanced Database Systems",
+        "ca_score": 25,
+        "exam_score": 58,
+        "total_score": 83,
+        "letter_grade": "A",
+        "grade_point": 5.0
+      },
+      {
+        "course_code": "CST302",
+        "course_title": "Data Structures and Algorithms",
+        "ca_score": 26,
+        "exam_score": 61,
+        "total_score": 87,
+        "letter_grade": "A",
+        "grade_point": 5.0
+      }
+    ]
+  },
+  {
+    "student_id": 2,
+    "matric_number": "LP/2025/002",
+    "first_name": "Tunde",
+    "last_name": "Bello",
+    "programme": "Computer Science",
+    "registrations": [
+      {
+        "course_code": "CST301",
+        "course_title": "Advanced Database Systems",
+        "ca_score": 22,
+        "exam_score": 43,
+        "total_score": 65,
+        "letter_grade": "B",
+        "grade_point": 4.0
+      }
+    ]
+  },
+  {
+    "student_id": 3,
+    "matric_number": "LP/2025/003",
+    "first_name": "Zainab",
+    "last_name": "Musa",
+    "programme": "Computer Science",
+    "registrations": [
+      {
+        "course_code": "CST301",
+        "course_title": "Advanced Database Systems",
+        "ca_score": 18,
+        "exam_score": 35,
+        "total_score": 53,
+        "letter_grade": "C",
+        "grade_point": 3.0
+      }
+    ]
+  },
+  {
+    "student_id": 4,
+    "matric_number": "LP/2025/004",
+    "first_name": "Chidi",
+    "last_name": "Eze",
+    "programme": "Computer Science",
+    "registrations": []
+  }
+]
